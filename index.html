@@ -1,127 +1,146 @@
-<style>
-/* ตั้งค่าพฤติกรรมกล่องพื้นฐาน ป้องกันกรอบล้นหน้าจอ */
-*, *::before, *::after {
-  box-sizing: border-box;
-}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <!-- คำสั่งนี้สำคัญมาก! ทำให้พอดีกับหน้าจอมือถือ -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>รายงานยอดขายประจำเดือน</title>
+  
+  <style>
+    /* ตั้งค่าพฤติกรรมกล่องพื้นฐาน ป้องกันกรอบล้นหน้าจอ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f7f7f8; /* สีพื้นหลังหน้าจออ่อนๆ ให้การ์ดดูเด่นขึ้น */
+    }
 
-.wrap {
-  width: 100%;
-  max-width: 380px; /* ขนาดสูงสุดพอดีกับหน้าจอมือถือทั่วไป */
-  margin: 0 auto;
-  padding: 16px; /* เว้นระยะขอบซ้ายขวาไม่ให้ชิดจอเกินไป */
-}
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-.card {
-  width: 100%;
-  background: var(--color-background-primary, #ffffff);
-  border: 0.5px solid var(--color-border-tertiary, #eaeaeb);
-  border-radius: 20px;
-  padding: 24px 16px; /* ปรับ padding ให้เหมาะกับจอมือถือ */
-  box-shadow: 0 4px 16px rgba(0,0,0,0.04); /* เพิ่มมิติให้การ์ด */
-  animation: fadeUp .4s ease both;
-}
+    .wrap {
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 16px;
+    }
 
-.section-title {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--color-text-secondary, #666);
-  margin: 0 0 10px;
-  letter-spacing: .04em;
-}
+    .card {
+      width: 100%;
+      background: var(--color-background-primary, #ffffff);
+      border: 0.5px solid var(--color-border-tertiary, #eaeaeb);
+      border-radius: 20px;
+      padding: 24px 20px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+      animation: fadeUp .4s ease both;
+    }
 
-.input-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
-  border-bottom: 0.5px solid var(--color-border-tertiary, #eaeaeb);
-}
+    .section-title {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--color-text-secondary, #666);
+      margin: 0 0 10px;
+      letter-spacing: .04em;
+    }
 
-.input-row:last-of-type {
-  border-bottom: none;
-}
+    .input-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 0.5px solid var(--color-border-tertiary, #eaeaeb);
+    }
 
-.input-label {
-  font-size: 13px;
-  color: var(--color-text-secondary, #666);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  white-space: nowrap; /* ป้องกันข้อความตกบรรทัด */
-}
+    .input-row:last-of-type {
+      border-bottom: none;
+    }
 
-.input-row input {
-  width: 42%; /* ปรับให้ยืดหยุ่นตามหน้าจอ */
-  min-width: 100px;
-  max-width: 130px;
-  text-align: right;
-  font-size: 15px;
-  font-weight: 500;
-  border: 0.5px solid var(--color-border-secondary, #ccc);
-  border-radius: 8px;
-  padding: 6px 8px;
-  background: var(--color-background-secondary, #f9f9f9);
-  color: var(--color-text-primary, #333);
-}
+    .input-label {
+      font-size: 14px;
+      color: var(--color-text-secondary, #444);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
 
-.result-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 11px 0;
-  border-bottom: 0.5px solid var(--color-border-tertiary, #eaeaeb);
-}
+    .input-row input {
+      width: 45%;
+      min-width: 100px;
+      text-align: right;
+      font-size: 16px;
+      font-weight: 500;
+      border: 0.5px solid var(--color-border-secondary, #ccc);
+      border-radius: 8px;
+      padding: 8px 10px;
+      background: var(--color-background-secondary, #f9f9f9);
+      color: var(--color-text-primary, #333);
+      /* ป้องกันมือถือซูมตอนกดพิมพ์ */
+      appearance: none;
+      -webkit-appearance: none;
+    }
 
-.result-row:last-of-type {
-  border-bottom: none;
-}
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 0.5px solid var(--color-border-tertiary, #eaeaeb);
+    }
 
-.result-label {
-  font-size: 14px;
-  color: var(--color-text-secondary, #666);
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
+    .result-row:last-of-type {
+      border-bottom: none;
+    }
 
-.result-val {
-  font-size: 16px;
-  font-weight: 500;
-  text-align: right;
-}
+    .result-label {
+      font-size: 14px;
+      color: var(--color-text-secondary, #666);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-.bar-track {
-  background: var(--color-background-secondary, #eee);
-  border-radius: 20px;
-  height: 9px;
-  overflow: hidden;
-  margin: 4px 0;
-}
+    .result-val {
+      font-size: 16px;
+      font-weight: 600;
+      text-align: right;
+    }
 
-.bar-fill {
-  height: 100%;
-  border-radius: 20px;
-  background: #1D9E75;
-  transition: width .8s ease;
-}
+    .bar-track {
+      background: var(--color-background-secondary, #eee);
+      border-radius: 20px;
+      height: 9px;
+      overflow: hidden;
+      margin: 4px 0;
+    }
 
-.divider {
-  border: none;
-  border-top: 0.5px solid var(--color-border-tertiary, #eaeaeb);
-  margin: 16px 0;
-}
-</style>
+    .bar-fill {
+      height: 100%;
+      border-radius: 20px;
+      background: #1D9E75;
+      transition: width .8s ease;
+    }
+
+    .divider {
+      border: none;
+      border-top: 0.5px solid var(--color-border-tertiary, #eaeaeb);
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
 
 <div class="wrap">
   <div class="card">
 
-    <div style="text-align:center;margin-bottom:18px">
-      <div style="font-size:14px;font-weight:600;color:var(--color-text-secondary, #444);letter-spacing:.02em">📊 รายงานยอดขายประจำเดือน</div>
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="font-size:15px;font-weight:600;color:var(--color-text-secondary, #444);letter-spacing:.02em">📊 รายงานยอดขายประจำเดือน</div>
     </div>
 
     <div class="section-title">กรอกข้อมูล</div>
@@ -140,19 +159,19 @@
 
     <div class="divider"></div>
 
-    <div style="position:relative;width:156px;height:156px;margin:0 auto 16px">
-      <svg width="156" height="156" viewBox="0 0 156 156" fill="none" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;">
+    <div style="position:relative;width:160px;height:160px;margin:0 auto 20px">
+      <svg width="160" height="160" viewBox="0 0 156 156" fill="none" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;">
         <circle cx="78" cy="78" r="62" stroke="#E1F5EE" stroke-width="15"/>
         <circle id="arc" cx="78" cy="78" r="62" stroke="#1D9E75" stroke-width="15" stroke-linecap="round" stroke-dasharray="389.6" stroke-dashoffset="389.6" transform="rotate(-90 78 78)" style="transition:stroke-dashoffset .8s ease"/>
         <circle id="arc2" cx="78" cy="78" r="62" stroke="#FFCA28" stroke-width="15" stroke-linecap="round" stroke-dasharray="389.6" stroke-dashoffset="389.6" transform="rotate(-90 78 78)" style="transition:stroke-dashoffset .8s ease; display:none; filter: drop-shadow(0 0 6px rgba(255, 202, 40, 0.8));"/>
       </svg>
       <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;line-height:1.2">
-        <div id="pct-num" style="font-size:28px;font-weight:600;color:var(--color-text-primary, #222)">0.00%</div>
+        <div id="pct-num" style="font-size:30px;font-weight:600;color:var(--color-text-primary, #222)">0.00%</div>
         <div style="font-size:12px;color:var(--color-text-secondary, #666)">ถึงเป้า</div>
       </div>
     </div>
 
-    <div style="margin-bottom:4px">
+    <div style="margin-bottom:8px">
       <div class="bar-track"><div id="bar" class="bar-fill" style="width:0%"></div></div>
       <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--color-text-secondary, #888);margin-top:6px">
         <span>0</span><span id="bar-max">0</span>
@@ -182,7 +201,7 @@
       <div id="r-days" class="result-val" style="color:var(--color-text-primary, #333)">0 วัน</div>
     </div>
 
-    <div id="badge" style="text-align:center;margin-top:20px; line-height: 1.5;"></div>
+    <div id="badge" style="text-align:center;margin-top:24px; line-height: 1.5;"></div>
 
   </div>
 </div>
@@ -204,12 +223,10 @@ function calc(){
   var pct = target > 0 ? (sold / target * 100) : 0;
   var circ = 389.6;
   
-  // 1. เลเยอร์หลัก (สีเขียว)
   var visualPct1 = Math.min(pct, 100);
   var offset1 = circ - (circ * visualPct1 / 100);
   document.getElementById('arc').setAttribute('stroke-dashoffset', offset1.toFixed(1));
   
-  // 2. เลเยอร์ไฮไลต์ส่วนเกิน (สีทอง)
   var arc2 = document.getElementById('arc2');
   if (sold > target) { 
     var overPct = pct - 100;
@@ -222,7 +239,6 @@ function calc(){
     arc2.style.display = 'none'; 
   }
 
-  // ใช้การปัดเศษทิ้ง (Truncate) เพื่อไม่ให้แสดง 100.00% หากยอดจริงยังไม่ถึง
   var displayPct = (Math.floor(pct * 100) / 100).toFixed(2);
   document.getElementById('pct-num').textContent = displayPct + '%';
   
@@ -238,7 +254,6 @@ function calc(){
 
   var badge = document.getElementById('badge');
   
-  // เช็คจากยอดขายจริง
   if (sold >= target && target > 0) {
     badge.innerHTML = '<span style="background:#EAF3DE;color:#3B6D11;font-size:13px;font-weight:600;padding:10px 20px;border-radius:24px;display:inline-block;box-shadow: 0 2px 10px rgba(59, 109, 17, 0.15);">🎉 ทะลุเป้าแล้ว! ยอดเยี่ยมมาก!</span>';
   } else if (pct >= 80) {
@@ -252,3 +267,6 @@ function calc(){
 
 window.onload = calc;
 </script>
+
+</body>
+</html>

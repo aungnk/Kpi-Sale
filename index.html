@@ -1,0 +1,155 @@
+<style>
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.wrap{max-width:340px;margin:0 auto;padding:16px 0}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:20px;padding:24px 20px;animation:fadeUp .4s ease both}
+.section-title{font-size:12px;font-weight:500;color:var(--color-text-secondary);margin:0 0 10px;letter-spacing:.04em}
+.input-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.input-row:last-of-type{border-bottom:none}
+.input-label{font-size:13px;color:var(--color-text-secondary);display:flex;align-items:center;gap:6px}
+.input-row input{width:110px;text-align:right;font-size:15px;font-weight:500;border:0.5px solid var(--color-border-secondary);border-radius:8px;padding:5px 8px;background:var(--color-background-secondary);color:var(--color-text-primary)}
+.result-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.result-row:last-of-type{border-bottom:none}
+.result-label{font-size:14px;color:var(--color-text-secondary);display:flex;align-items:center;gap:7px}
+.result-val{font-size:17px;font-weight:500}
+.bar-track{background:var(--color-background-secondary);border-radius:20px;height:9px;overflow:hidden;margin:4px 0}
+.bar-fill{height:100%;border-radius:20px;background:#1D9E75;transition:width .8s ease}
+.btn{width:100%;padding:10px;border-radius:12px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-primary);font-size:14px;font-weight:500;cursor:pointer;margin-top:14px}
+.btn:active{transform:scale(.98)}
+.divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:16px 0}
+</style>
+
+<div class="wrap">
+  <div class="card">
+
+    <div style="text-align:center;margin-bottom:18px">
+      <div style="font-size:13px;font-weight:500;color:var(--color-text-secondary);letter-spacing:.05em">📊 รายงานยอดขายประจำเดือน</div>
+    </div>
+
+    <div class="section-title">กรอกข้อมูล</div>
+    <div class="input-row">
+      <div class="input-label"><span>🎯</span> เป้าหมาย</div>
+      <input id="target" type="number" value="277000" oninput="calc()">
+    </div>
+    <div class="input-row">
+      <div class="input-label"><span>✅</span> ยอดขายสะสม</div>
+      <input id="sold" type="number" value="276999" oninput="calc()">
+    </div>
+    <div class="input-row">
+      <div class="input-label"><span>📅</span> วันที่เหลือ</div>
+      <input id="days" type="number" value="4" min="0" oninput="calc()">
+    </div>
+
+    <div class="divider"></div>
+
+    <div style="position:relative;width:156px;height:156px;margin:0 auto 16px">
+      <svg width="156" height="156" viewBox="0 0 156 156" fill="none" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;">
+        <circle cx="78" cy="78" r="62" stroke="#E1F5EE" stroke-width="15"/>
+        <circle id="arc" cx="78" cy="78" r="62" stroke="#1D9E75" stroke-width="15" stroke-linecap="round" stroke-dasharray="389.6" stroke-dashoffset="389.6" transform="rotate(-90 78 78)" style="transition:stroke-dashoffset .8s ease"/>
+        <circle id="arc2" cx="78" cy="78" r="62" stroke="#FFCA28" stroke-width="15" stroke-linecap="round" stroke-dasharray="389.6" stroke-dashoffset="389.6" transform="rotate(-90 78 78)" style="transition:stroke-dashoffset .8s ease; display:none; filter: drop-shadow(0 0 6px rgba(255, 202, 40, 0.8));"/>
+      </svg>
+      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;line-height:1.2">
+        <div id="pct-num" style="font-size:28px;font-weight:500;color:var(--color-text-primary)">0.00%</div>
+        <div style="font-size:11px;color:var(--color-text-secondary)">ถึงเป้า</div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:4px">
+      <div class="bar-track"><div id="bar" class="bar-fill" style="width:0%"></div></div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--color-text-secondary);margin-top:4px">
+        <span>0</span><span id="bar-max">0</span>
+      </div>
+    </div>
+
+    <div style="border-top:0.5px solid var(--color-border-tertiary);margin:16px 0 0"></div>
+
+    <div class="result-row">
+      <div class="result-label"><span>🎯</span> เป้าหมาย</div>
+      <div id="r-target" class="result-val" style="color:var(--color-text-primary)">0</div>
+    </div>
+    <div class="result-row">
+      <div class="result-label"><span>✅</span> ขายได้แล้ว</div>
+      <div id="r-sold" class="result-val" style="color:#1D9E75">0</div>
+    </div>
+    <div class="result-row">
+      <div class="result-label"><span>⏳</span> คงเหลือ</div>
+      <div id="r-remain" class="result-val" style="color:#D85A30">0</div>
+    </div>
+    <div class="result-row">
+      <div class="result-label"><span>🔥</span> ต้องขายขั้นต่ำต่อวัน</div>
+      <div id="r-daily" class="result-val" style="color:#BA7517">~0</div>
+    </div>
+    <div class="result-row">
+      <div class="result-label"><span>📅</span> เหลือเวลา</div>
+      <div id="r-days" class="result-val" style="color:var(--color-text-primary)">0 วัน</div>
+    </div>
+
+    <div id="badge" style="text-align:center;margin-top:16px"></div>
+
+  </div>
+</div>
+
+<script>
+function fmt(n){return Math.round(n).toLocaleString('th-TH')}
+function calc(){
+  var target = parseFloat(document.getElementById('target').value) || 0;
+  var sold = parseFloat(document.getElementById('sold').value) || 0;
+  var days = Math.max(parseFloat(document.getElementById('days').value) || 0, 0); 
+  
+  var remain = Math.max(target - sold, 0);
+  
+  var daily = 0;
+  if (remain > 0) {
+    daily = days > 0 ? Math.ceil(remain / days) : remain;
+  }
+  
+  var pct = target > 0 ? (sold / target * 100) : 0;
+  var circ = 389.6;
+  
+  // 1. เลเยอร์หลัก (สีเขียว)
+  var visualPct1 = Math.min(pct, 100);
+  var offset1 = circ - (circ * visualPct1 / 100);
+  document.getElementById('arc').setAttribute('stroke-dashoffset', offset1.toFixed(1));
+  
+  // 2. เลเยอร์ไฮไลต์ส่วนเกิน (สีทอง)
+  var arc2 = document.getElementById('arc2');
+  if (sold > target) { 
+    var overPct = pct - 100;
+    var visualPct2 = Math.min(overPct, 100);
+    var offset2 = circ - (circ * visualPct2 / 100);
+    arc2.setAttribute('stroke-dashoffset', offset2.toFixed(1));
+    arc2.style.display = 'block'; 
+  } else {
+    arc2.setAttribute('stroke-dashoffset', circ);
+    arc2.style.display = 'none'; 
+  }
+
+  // ใช้การปัดเศษทิ้ง (Truncate) เพื่อไม่ให้แสดง 100.00% หากยอดจริงยังไม่ถึง
+  var displayPct = (Math.floor(pct * 100) / 100).toFixed(2);
+  document.getElementById('pct-num').textContent = displayPct + '%';
+  
+  var visualPctBar = Math.min(pct, 100);
+  document.getElementById('bar').style.width = visualPctBar + '%';
+  
+  document.getElementById('bar-max').textContent = fmt(target);
+  document.getElementById('r-target').textContent = fmt(target);
+  document.getElementById('r-sold').textContent = fmt(sold);
+  document.getElementById('r-remain').textContent = fmt(remain);
+  document.getElementById('r-daily').textContent = remain > 0 ? '~' + fmt(daily) : '0';
+  document.getElementById('r-days').textContent = days + ' วัน';
+
+  var badge = document.getElementById('badge');
+  
+  // เช็คจากยอดขายจริงแทนการเช็คเปอร์เซ็นต์
+  if (sold >= target && target > 0) {
+    badge.innerHTML = '<span style="background:#EAF3DE;color:#3B6D11;font-size:12px;font-weight:500;padding:8px 18px;border-radius:20px;display:inline-block;box-shadow: 0 0 10px rgba(59, 109, 17, 0.2);">🎉 ทะลุเป้าแล้ว! ยอดเยี่ยมมาก!</span>';
+  } else if (pct >= 80) {
+    badge.innerHTML = '<span style="background:#EAF3DE;color:#3B6D11;font-size:12px;font-weight:500;padding:8px 18px;border-radius:20px;display:inline-block">💪🔥 เหลืออีกนิดเดียว — สู้ๆ! 🚀</span>';
+  } else if (pct >= 50) {
+    badge.innerHTML = '<span style="background:#FAEEDA;color:#633806;font-size:12px;font-weight:500;padding:8px 18px;border-radius:20px;display:inline-block">💪 ลุยกันต่อ Incentive ต่อเนื่อง ยังไม่จบ 🎉</span>';
+  } else {
+    badge.innerHTML = '<span style="background:#FAECE7;color:#712B13;font-size:12px;font-weight:500;padding:8px 18px;border-radius:20px;display:inline-block">💪 Incentive ใกล้ครึ่งทางแล้ว</span>';
+  }
+}
+
+window.onload = calc;
+</script>
